@@ -7,29 +7,29 @@ import { Question } from '../schemas/question.schema';
 @ApiTags('Questions')
 @Controller('questions')
 export class QuestionsController {
-  constructor(private readonly QuestionsService: QuestionsService) {}
+  constructor(private readonly QuestionsSV: QuestionsService) {}
 
   @Post()
   @ApiOperation({ summary: 'Create question' })
   async create(@Body() createQuestionDto: CreateQuestionDto) {
-    await this.QuestionsService.create(createQuestionDto);
+    await this.QuestionsSV.create(createQuestionDto);
   }
 
   @Get()
   @ApiOperation({ summary: 'Get list questions' })
   async findAll(): Promise<Question[]> {
-    return this.QuestionsService.findAll();
+    return this.QuestionsSV.findAll();
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a question' })
   async findOne(@Param('id') id: string): Promise<Question> {
-    return this.QuestionsService.findOne(id);
+    return this.QuestionsSV.findOne(id);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a question' })
   async delete(@Param('id') id: string) {
-    return this.QuestionsService.delete(id);
+    return this.QuestionsSV.delete(id);
   }
 }
