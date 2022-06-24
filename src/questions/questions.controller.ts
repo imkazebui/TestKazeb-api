@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
-import { Question, schemaName } from '../schemas/question.schema';
+import { Question } from '../schemas/question.schema';
 
 @ApiTags('Questions')
 @Controller('questions')
