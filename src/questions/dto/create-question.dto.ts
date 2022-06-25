@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsArray,
+  IsNumber,
+} from 'class-validator';
 
 export class CreateQuestionDto {
   @ApiProperty({ required: true })
@@ -18,4 +24,16 @@ export class CreateQuestionDto {
   @IsString()
   @IsNotEmpty()
   category: string;
+
+  @IsString()
+  @IsOptional()
+  input: string;
+
+  @IsArray()
+  @IsOptional()
+  options: [];
+
+  @IsNumber()
+  @IsOptional()
+  answer: number;
 }

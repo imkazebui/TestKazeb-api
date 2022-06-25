@@ -13,6 +13,15 @@ export class Question {
 
   @Prop()
   category: string;
+
+  @Prop()
+  input: string;
+
+  @Prop()
+  answer: number;
+
+  @Prop()
+  options: [];
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);
