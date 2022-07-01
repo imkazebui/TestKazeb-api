@@ -3,25 +3,64 @@ import { Document } from 'mongoose';
 
 export type QuestionDocument = Question & Document;
 
+enum QuestionType {
+  Coding = 'CODING',
+  MultipleChoice = 'MULTIPLE_CHOICE',
+}
+
+enum QuestionLevel {
+  Entry = 'ENTRY',
+  Intermediate = 'INTERMEDIATE',
+}
+
+enum QuestionCategory {
+  React = 'REACT',
+}
 @Schema()
 export class Question {
-  @Prop()
+  @Prop({
+    required: true,
+  })
   question: string;
 
-  @Prop()
-  type: 'CODING' | 'MULTIPLE_CHOICE';
+  @Prop({
+    required: true,
+    enum: QuestionType,
+  })
+  type: string;
 
-  @Prop()
+  @Prop({
+    enum: QuestionCategory,
+  })
   category: string;
 
-  @Prop()
-  input: string;
+  @Prop({
+    enum: QuestionLevel,
+  })
+  level: string;
 
   @Prop()
   answer: number;
 
   @Prop()
-  options: [];
+  options: [
+    {
+      id: number;
+      text: string;
+    },
+  ];
+
+  @Prop({
+    type: Date,
+    default: Date.now,
+  })
+  createdAt: string;
+
+  @Prop({
+    type: Date,
+    default: Date.now,
+  })
+  updatedAt: string;
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);

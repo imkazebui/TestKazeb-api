@@ -15,6 +15,12 @@ export class QuestionsController {
     await this.QuestionsSV.create(createQuestionDto);
   }
 
+  @Post('/bulkCreate')
+  @ApiOperation({ summary: 'Create question' })
+  async bulkCreate() {
+    await this.QuestionsSV.bulkCreate();
+  }
+
   @Get()
   @ApiOperation({ summary: 'Get list questions' })
   async findAll(): Promise<Question[]> {

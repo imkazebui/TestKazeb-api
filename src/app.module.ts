@@ -4,6 +4,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import * as Joi from 'joi';
 import { DatabaseModule } from './database/database.module';
 import { QuestionsModule } from './questions/questions.module';
+import { TestsModule } from './tests/tests.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { QuestionsModule } from './questions/questions.module';
     }),
     DatabaseModule,
     QuestionsModule,
+    TestsModule,
   ],
 })
 export class AppModule {}

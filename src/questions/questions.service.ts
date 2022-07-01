@@ -8,6 +8,8 @@ import {
   schemaName,
 } from '../schemas/question.schema';
 
+import mockData from '../data/testgorilla/react/test.json';
+
 @Injectable()
 export class QuestionsService {
   constructor(
@@ -17,6 +19,20 @@ export class QuestionsService {
 
   async create(createQuestionDto: CreateQuestionDto): Promise<Question> {
     const createdQuestion = await this.questionModel.create(createQuestionDto);
+    return createdQuestion;
+  }
+
+  async bulkCreate(): Promise<any> {
+    const { questions } = mockData;
+    const insertedData = questions.map(({ question }) => ({
+      question: question.text,
+      type: 'MULTIPLE_CHOICE',
+      category: 'REACT',
+      level: 'INTERMEDIATE',
+      answer: 0,
+      options: question.answers,
+    }));
+    const createdQuestion = await this.questionModel.insertMany(insertedData);
     return createdQuestion;
   }
 

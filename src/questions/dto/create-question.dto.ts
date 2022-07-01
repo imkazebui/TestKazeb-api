@@ -16,7 +16,7 @@ export class CreateQuestionDto {
   @ApiProperty({ required: true })
   @IsString()
   @IsNotEmpty()
-  type: 'CODING' | 'MULTIPLE_CHOICE';
+  type: string;
 
   @ApiProperty({
     required: true,
@@ -25,13 +25,21 @@ export class CreateQuestionDto {
   @IsNotEmpty()
   category: string;
 
+  @ApiProperty({
+    required: true,
+  })
   @IsString()
-  @IsOptional()
-  input: string;
+  @IsNotEmpty()
+  level: string;
 
   @IsArray()
   @IsOptional()
-  options: [];
+  options: [
+    {
+      id: number;
+      text: string;
+    },
+  ];
 
   @IsNumber()
   @IsOptional()
