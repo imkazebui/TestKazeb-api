@@ -11,10 +11,12 @@ enum QuestionType {
 enum QuestionLevel {
   Entry = 'ENTRY',
   Intermediate = 'INTERMEDIATE',
+  Advanced = 'ADVANCED',
 }
 
 enum QuestionCategory {
   React = 'REACT',
+  Nodejs = 'NODEJS',
 }
 @Schema()
 export class Question {
@@ -43,12 +45,10 @@ export class Question {
   answer: number;
 
   @Prop()
-  options: [
-    {
-      id: number;
-      text: string;
-    },
-  ];
+  options: {
+    id: number;
+    text: string;
+  }[];
 
   @Prop({
     type: Date,

@@ -8,7 +8,7 @@ import {
   schemaName,
 } from '../schemas/question.schema';
 
-import mockData from '../data/testgorilla/react/test.json';
+import mockData from '../data/testgorilla/nodejs/test.json';
 
 @Injectable()
 export class QuestionsService {
@@ -27,8 +27,8 @@ export class QuestionsService {
     const insertedData = questions.map(({ question }) => ({
       question: question.text,
       type: 'MULTIPLE_CHOICE',
-      category: 'REACT',
-      level: 'INTERMEDIATE',
+      category: 'NODEJS',
+      level: 'ADVANCED',
       answer: 0,
       options: question.answers,
     }));
@@ -37,11 +37,18 @@ export class QuestionsService {
   }
 
   async findAll(): Promise<Question[]> {
-    return this.questionModel.find().exec();
+    // const data = await this.questionModel.find().exec();
+    // console.log({ questionIds: data.map((d) => d._id.toString()) });
+
+    return this.questionModel.find({ category: 'NODEJS' }).exec();
   }
 
   async findOne(id: string): Promise<Question> {
     return this.questionModel.findOne({ _id: id }).exec();
+  }
+
+  async updateOne(id: string, payload: CreateQuestionDto): Promise<Question> {
+    return this.questionModel.findOneAndUpdate({ _id: id }, payload);
   }
 
   async delete(id: string) {

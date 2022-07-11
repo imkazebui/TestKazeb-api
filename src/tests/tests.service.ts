@@ -26,7 +26,20 @@ export class TestsService {
       level: 'INTERMEDIATE',
       coveredSkills: mockData.covered_skills.map((s) => s.description),
       previewQuestions: [],
-      questions: [],
+      questions: [
+        '62bda8b39398d234aa1f0457',
+        '62bda8b39398d234aa1f0458',
+        '62bda8b39398d234aa1f0459',
+        '62bda8b39398d234aa1f045a',
+        '62bda8b39398d234aa1f045b',
+        '62bda8b39398d234aa1f045c',
+        '62bda8b39398d234aa1f045d',
+        '62bda8b39398d234aa1f045e',
+        '62bda8b39398d234aa1f045f',
+        '62bda8b39398d234aa1f0460',
+        '62bda8b39398d234aa1f0461',
+        '62bda8b39398d234aa1f0462',
+      ],
     };
     const createdTest = await this.testModel.insertMany(insertedData);
     return createdTest;
