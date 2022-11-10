@@ -1,17 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+import { LevelEnum } from 'src/constants/enum';
+
 export type QuestionDocument = Question & Document;
 
 enum QuestionType {
   Coding = 'CODING',
   MultipleChoice = 'MULTIPLE_CHOICE',
-}
-
-enum QuestionLevel {
-  Entry = 'ENTRY',
-  Intermediate = 'INTERMEDIATE',
-  Advanced = 'ADVANCED',
 }
 
 enum QuestionCategory {
@@ -37,7 +33,7 @@ export class Question {
   category: string;
 
   @Prop({
-    enum: QuestionLevel,
+    enum: LevelEnum,
   })
   level: string;
 

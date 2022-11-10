@@ -6,9 +6,9 @@ import {
   Question,
   QuestionDocument,
   schemaName,
-} from '../schemas/question.schema';
+} from '../../schemas/question.schema';
 
-import mockData from '../data/testgorilla/nodejs/test.json';
+import mockData from '../../data/testgorilla/nodejs/test.json';
 
 @Injectable()
 export class QuestionsService {
@@ -37,8 +37,8 @@ export class QuestionsService {
   }
 
   async findAll(): Promise<Question[]> {
-    // const data = await this.questionModel.find().exec();
-    // console.log({ questionIds: data.map((d) => d._id.toString()) });
+    const data = await this.questionModel.find().exec();
+    console.log({ questionIds: data.map((d) => d._id.toString()) });
 
     return this.questionModel.find({ category: 'NODEJS' }).exec();
   }
@@ -52,9 +52,9 @@ export class QuestionsService {
   }
 
   async delete(id: string) {
-    const deletedCat = await this.questionModel
+    const deleted = await this.questionModel
       .findByIdAndRemove({ _id: id })
       .exec();
-    return deletedCat;
+    return deleted;
   }
 }

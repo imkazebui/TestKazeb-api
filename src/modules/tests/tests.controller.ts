@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { TestsService } from './tests.service';
 import { CreateTestDto } from './dto/create-test.dto';
-import { Test } from '../schemas/test.schema';
+import { Test } from '../../schemas/test.schema';
 
 @ApiTags('Tests')
 @Controller('tests')

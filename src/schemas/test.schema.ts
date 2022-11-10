@@ -1,15 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+import { LevelEnum } from 'src/constants/enum';
+
 export type TestDocument = Test & Document;
 
 enum TestType {
   ProgramingSkills = 'PROGRAMMING_SKILLS',
-}
-
-enum TestLevel {
-  Entry = 'ENTRY',
-  Intermediate = 'INTERMEDIATE',
 }
 
 @Schema()
@@ -34,7 +31,7 @@ export class Test {
   description: string;
 
   @Prop({
-    enum: TestLevel,
+    enum: LevelEnum,
   })
   level: string;
 
