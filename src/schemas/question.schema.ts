@@ -29,7 +29,7 @@ export class Question {
   }[];
 
   @Prop()
-  answer: number[];
+  answers: number[];
 
   @Prop()
   createdBy: string;
@@ -50,4 +50,4 @@ export class Question {
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);
-export const schemaName = 'Question';
+export const QuestionSchemaName = 'Question';

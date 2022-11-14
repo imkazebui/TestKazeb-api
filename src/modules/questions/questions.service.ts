@@ -8,14 +8,17 @@ import {
 import {
   Question,
   QuestionDocument,
-  schemaName,
+  QuestionSchemaName,
 } from '../../schemas/question.schema';
+import { QuizDocument, QuizSchemaName } from '../../schemas/quiz.schema';
 
 @Injectable()
 export class QuestionsService {
   constructor(
-    @InjectModel(schemaName)
+    @InjectModel(QuestionSchemaName)
     private readonly questionModel: Model<QuestionDocument>,
+    @InjectModel(QuizSchemaName)
+    private readonly quizModel: Model<QuizDocument>,
   ) {}
 
   async create(createQuestionDto: CreateQuestionDto): Promise<Question> {
@@ -24,8 +27,41 @@ export class QuestionsService {
   }
 
   async bulkCreate(data: CreateQuestionsDto): Promise<any> {
-    const { questions } = data;
-    const createdQuestions = await this.questionModel.insertMany(questions);
+    const {
+      questions,
+      test_name,
+      level,
+      has_preview,
+      preview_questions,
+      duration,
+    } = data;
+    let quiz = await this.quizModel.findOne({ name: test_name, level }).exec();
+    if (!quiz) {
+      quiz = await this.quizModel.create({
+        name: test_name,
+        level,
+        duration: +duration,
+        hasPreview: has_preview,
+        sampleQuestions: preview_questions.map((item: any) => ({
+          question: item.text,
+          options: item.answers,
+          type: item.type.replace(/-/g, '_').toUpperCase(),
+          answers: preview_questions
+            .filter((item: any) => item.score > 0)
+            .map((object: any) => object.id),
+        })),
+      });
+    }
+    const importQuestion = questions.map((item: any) => ({
+      question: item.question.text,
+      quizId: quiz._id,
+      type: item.question.type.replace(/-/g, '_').toUpperCase(),
+      options: item.question.answers,
+      answers: item.answers,
+    }));
+    const createdQuestions = await this.questionModel.insertMany(
+      importQuestion,
+    );
     return createdQuestions;
   }
 

@@ -2,6 +2,7 @@ export enum QuestionTypeEnum {
   CODING = 'CODING',
   MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
   DISCUSS = 'DISCUSS',
+  TRUEFALSE = 'TRUEFALSE',
 }
 
 export enum UserTypeEnum {

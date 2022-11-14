@@ -6,6 +6,7 @@ import { DatabaseModule } from './database/database.module';
 import { QuestionsModule } from './modules/questions/questions.module';
 import { TestsModule } from './modules/tests/tests.module';
 import { AssessmentsModule } from './modules/assessments/assessments.module';
+import { QuizModule } from './modules/quiz/quiz.module';
 
 @Module({
   imports: [
@@ -13,13 +14,14 @@ import { AssessmentsModule } from './modules/assessments/assessments.module';
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         // DATABASE
-        DATABASE_URI: Joi.string().required(),
+        // DATABASE_URI: Joi.string().required(),
       }),
     }),
     DatabaseModule,
     QuestionsModule,
     TestsModule,
     AssessmentsModule,
+    QuizModule,
   ],
 })
 export class AppModule {}

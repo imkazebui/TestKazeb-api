@@ -3,7 +3,6 @@ import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
   IsArray,
-  IsBoolean,
   IsEnum,
   IsNotEmpty,
   IsOptional,
@@ -23,7 +22,7 @@ export class QuestionOptionDto {
   text: string;
 }
 
-export class CreateQuestionDto {
+export class CreateQuizDto {
   @ApiProperty({ required: true })
   @IsString()
   @IsNotEmpty()
@@ -70,25 +69,4 @@ export class CreateQuestionDto {
   @ValidateNested({ each: true })
   @Type(() => String)
   answers: number[];
-}
-
-export class CreateQuestionsDto {
-  @ArrayNotEmpty()
-  questions: any[];
-
-  @IsString()
-  @IsNotEmpty()
-  test_name: string;
-
-  @IsString()
-  @IsNotEmpty()
-  level: string;
-
-  @IsBoolean()
-  has_preview: boolean;
-
-  @ArrayNotEmpty()
-  preview_questions: CreateQuestionDto[];
-
-  duration: number;
 }

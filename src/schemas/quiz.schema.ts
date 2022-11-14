@@ -18,6 +18,9 @@ export class Quiz {
   duration: string;
 
   @Prop()
+  hasPreview: boolean;
+
+  @Prop()
   sampleQuestions: Question[];
 
   @Prop()
@@ -39,4 +42,5 @@ export class Quiz {
 }
 
 export const QuizSchema = SchemaFactory.createForClass(Quiz);
-export const schemaName = 'Quiz';
+QuizSchema.index({ category: 1, level: 1 }, { unique: true });
+export const QuizSchemaName = 'Quiz';
