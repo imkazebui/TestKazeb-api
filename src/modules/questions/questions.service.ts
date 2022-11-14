@@ -9,7 +9,7 @@ import {
   Question,
   QuestionDocument,
   schemaName,
-} from '../schemas/question.schema';
+} from '../../schemas/question.schema';
 
 @Injectable()
 export class QuestionsService {

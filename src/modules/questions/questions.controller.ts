@@ -13,7 +13,7 @@ import {
   CreateQuestionDto,
   CreateQuestionsDto,
 } from './dto/create-question.dto';
-import { Question } from '../schemas/question.schema';
+import { Question } from '../../schemas/question.schema';
 
 @ApiTags('Questions')
 @Controller('questions')
