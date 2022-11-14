@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateQuestionDto } from './dto/create-question.dto';
+import {
+  CreateQuestionDto,
+  CreateQuestionsDto,
+} from './dto/create-question.dto';
 import {
   Question,
   QuestionDocument,
   schemaName,
 } from '../schemas/question.schema';
-
-import mockData from '../data/testgorilla/nodejs/test.json';
 
 @Injectable()
 export class QuestionsService {
@@ -22,25 +23,14 @@ export class QuestionsService {
     return createdQuestion;
   }
 
-  async bulkCreate(): Promise<any> {
-    const { questions } = mockData;
-    const insertedData = questions.map(({ question }) => ({
-      question: question.text,
-      type: 'MULTIPLE_CHOICE',
-      category: 'NODEJS',
-      level: 'ADVANCED',
-      answer: 0,
-      options: question.answers,
-    }));
-    const createdQuestion = await this.questionModel.insertMany(insertedData);
-    return createdQuestion;
+  async bulkCreate(data: CreateQuestionsDto): Promise<any> {
+    const { questions } = data;
+    const createdQuestions = await this.questionModel.insertMany(questions);
+    return createdQuestions;
   }
 
   async findAll(): Promise<Question[]> {
-    // const data = await this.questionModel.find().exec();
-    // console.log({ questionIds: data.map((d) => d._id.toString()) });
-
-    return this.questionModel.find({ category: 'NODEJS' }).exec();
+    return this.questionModel.find().exec();
   }
 
   async findOne(id: string): Promise<Question> {
@@ -52,9 +42,12 @@ export class QuestionsService {
   }
 
   async delete(id: string) {
-    const deletedCat = await this.questionModel
+    const deletedValue = await this.questionModel
       .findByIdAndRemove({ _id: id })
       .exec();
-    return deletedCat;
+    if (deletedValue._id) {
+      return true;
+    }
+    return false;
   }
 }

@@ -1,11 +1,26 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
-  IsString,
+  ArrayNotEmpty,
+  IsArray,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
-  IsArray,
-  IsNumber,
+  IsString,
+  ValidateIf,
+  ValidateNested,
 } from 'class-validator';
+import { QuestionTypeEnum } from '../../utils/constant';
+
+export class QuestionOptionDto {
+  @IsNotEmpty()
+  @IsString()
+  id: string;
+
+  @IsNotEmpty()
+  @IsString()
+  text: string;
+}
 
 export class CreateQuestionDto {
   @ApiProperty({ required: true })
@@ -13,27 +28,29 @@ export class CreateQuestionDto {
   @IsNotEmpty()
   question: string;
 
-  @ApiProperty({ required: true })
   @IsString()
+  @IsOptional()
+  quizId: string;
+
+  @IsString()
+  @IsOptional()
+  description: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsEnum(QuestionTypeEnum)
   @IsNotEmpty()
   type: string;
 
-  @ApiProperty({
-    required: true,
+  @ValidateIf((object) => {
+    return object.type === QuestionTypeEnum.MULTIPLE_CHOICE;
   })
-  @IsString()
-  @IsNotEmpty()
-  category: string;
-
-  @ApiProperty({
-    required: true,
-  })
-  @IsString()
-  @IsNotEmpty()
-  level: string;
-
   @IsArray()
-  @IsOptional()
+  @IsNotEmpty()
+  @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => QuestionOptionDto)
   options: [
     {
       id: number;
@@ -41,7 +58,22 @@ export class CreateQuestionDto {
     },
   ];
 
-  @IsNumber()
-  @IsOptional()
-  answer: number;
+  @ValidateIf(
+    (object) =>
+      object.type === QuestionTypeEnum.MULTIPLE_CHOICE &&
+      object.options.length !== object.answer.length,
+  )
+  @IsArray()
+  @IsNotEmpty()
+  @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => String)
+  answer: number[];
+}
+
+export class CreateQuestionsDto {
+  @ValidateNested()
+  @Type(() => CreateQuestionDto)
+  @ArrayNotEmpty()
+  questions: CreateQuestionDto[];
 }

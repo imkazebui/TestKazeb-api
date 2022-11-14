@@ -1,23 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { QuestionTypeEnum } from '../utils/constant';
 
 export type QuestionDocument = Question & Document;
-
-enum QuestionType {
-  Coding = 'CODING',
-  MultipleChoice = 'MULTIPLE_CHOICE',
-}
-
-enum QuestionLevel {
-  Entry = 'ENTRY',
-  Intermediate = 'INTERMEDIATE',
-  Advanced = 'ADVANCED',
-}
-
-enum QuestionCategory {
-  React = 'REACT',
-  Nodejs = 'NODEJS',
-}
 @Schema()
 export class Question {
   @Prop({
@@ -25,30 +10,29 @@ export class Question {
   })
   question: string;
 
-  @Prop({
-    required: true,
-    enum: QuestionType,
-  })
-  type: string;
-
-  @Prop({
-    enum: QuestionCategory,
-  })
-  category: string;
-
-  @Prop({
-    enum: QuestionLevel,
-  })
-  level: string;
+  @Prop()
+  quizId: string;
 
   @Prop()
-  answer: number;
+  description: string;
+
+  @Prop({
+    required: true,
+    enum: QuestionTypeEnum,
+  })
+  type: string;
 
   @Prop()
   options: {
     id: number;
     text: string;
   }[];
+
+  @Prop()
+  answer: number[];
+
+  @Prop()
+  createdBy: string;
 
   @Prop({
     type: Date,
@@ -58,9 +42,11 @@ export class Question {
 
   @Prop({
     type: Date,
-    default: Date.now,
   })
   updatedAt: string;
+
+  @Prop()
+  updatedBy: string;
 }
 
 export const QuestionSchema = SchemaFactory.createForClass(Question);

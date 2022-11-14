@@ -9,7 +9,10 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { QuestionsService } from './questions.service';
-import { CreateQuestionDto } from './dto/create-question.dto';
+import {
+  CreateQuestionDto,
+  CreateQuestionsDto,
+} from './dto/create-question.dto';
 import { Question } from '../schemas/question.schema';
 
 @ApiTags('Questions')
@@ -20,13 +23,13 @@ export class QuestionsController {
   @Post()
   @ApiOperation({ summary: 'Create question' })
   async create(@Body() createQuestionDto: CreateQuestionDto) {
-    await this.QuestionsSV.create(createQuestionDto);
+    return await this.QuestionsSV.create(createQuestionDto);
   }
 
-  @Post('/bulkCreate')
+  @Post('/bulk-create')
   @ApiOperation({ summary: 'Create question' })
-  async bulkCreate() {
-    await this.QuestionsSV.bulkCreate();
+  async bulkCreate(@Body() data: CreateQuestionsDto) {
+    return await this.QuestionsSV.bulkCreate(data);
   }
 
   @Get()
