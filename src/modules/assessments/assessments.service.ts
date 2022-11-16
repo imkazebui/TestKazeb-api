@@ -48,10 +48,7 @@ export class AssessmentsService {
   }
 
   async findAll(): Promise<Assessment[]> {
-    const data = await this.assessmentModel.find().exec();
-    console.log({ assessmentIds: data.map((d) => d._id.toString()) });
-
-    return this.assessmentModel.find({ category: 'NODEJS' }).exec();
+    return this.assessmentModel.find().exec();
   }
 
   async findOne(id: string): Promise<Assessment> {
