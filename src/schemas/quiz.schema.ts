@@ -6,7 +6,7 @@ export type QuizDocument = Quiz & Document;
 @Schema()
 export class Quiz {
   @Prop()
-  category: string;
+  name: string;
 
   @Prop()
   level: string;

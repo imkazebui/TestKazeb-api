@@ -3,51 +3,23 @@ import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
   IsArray,
-  IsEnum,
+  IsBoolean,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
-  ValidateIf,
   ValidateNested,
 } from 'class-validator';
-import { QuestionTypeEnum } from '../../../utils/constant';
+import { QuestionOptionDto } from '../../questions/dto/create-question.dto';
 
-export class QuestionOptionDto {
+export class SampleQuestionDto {
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  id: string;
-
-  @IsNotEmpty()
-  @IsString()
-  text: string;
-}
-
-export class CreateQuizDto {
-  @ApiProperty({ required: true })
-  @IsString()
-  @IsNotEmpty()
   question: string;
 
-  @IsString()
-  @IsOptional()
-  quizId: string;
-
-  @IsString()
-  @IsOptional()
-  description: string;
-
-  @ApiProperty({
-    required: true,
-  })
-  @IsEnum(QuestionTypeEnum)
-  @IsNotEmpty()
-  type: string;
-
-  @ValidateIf((object) => {
-    return object.type === QuestionTypeEnum.MULTIPLE_CHOICE;
-  })
+  @ApiProperty()
   @IsArray()
-  @IsNotEmpty()
   @ArrayNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => QuestionOptionDto)
@@ -57,16 +29,44 @@ export class CreateQuizDto {
       text: string;
     },
   ];
+}
 
-  @ValidateIf(
-    (object) =>
-      object.type === QuestionTypeEnum.MULTIPLE_CHOICE &&
-      object.options.length !== object.answers.length,
-  )
-  @IsArray()
+export class CreateQuizDto {
+  @ApiProperty()
+  @IsString()
   @IsNotEmpty()
+  name: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  level: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  description: string;
+
+  @ApiProperty()
+  @IsNumber()
+  @IsNotEmpty()
+  duration: string;
+
+  @ApiProperty()
+  @IsBoolean()
+  @IsNotEmpty()
+  hasPreview: boolean;
+
+  @ApiProperty()
+  @IsArray()
+  @IsOptional()
   @ArrayNotEmpty()
   @ValidateNested({ each: true })
-  @Type(() => String)
-  answers: number[];
+  @Type(() => QuestionOptionDto)
+  sampleQuestions: [
+    {
+      id: number;
+      text: string;
+    },
+  ];
 }
