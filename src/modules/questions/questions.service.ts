@@ -26,22 +26,14 @@ export class QuestionsService {
     return createdQuestion;
   }
 
-  async bulkCreate(data: CreateQuestionsDto): Promise<any> {
-    const {
-      questions,
-      test_name,
-      level,
-      has_preview,
-      preview_questions,
-      duration,
-    } = data;
+  async bulkCreate(data: CreateQuestionsDto): Promise<Question[]> {
+    const { questions, test_name, level, preview_questions, duration } = data;
     let quiz = await this.quizModel.findOne({ name: test_name, level }).exec();
     if (!quiz) {
       quiz = await this.quizModel.create({
         name: test_name,
         level,
         duration: +duration,
-        hasPreview: has_preview,
         sampleQuestions: preview_questions.map((item: any) => ({
           question: item.text,
           options: item.answers,

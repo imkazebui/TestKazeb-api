@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { ResultEnum, StatusEnum } from '../utils/constant';
+import { ResultEnum, StatusEnum } from '../constants/enum';
 
 export type TestDocument = Test & Document;
 

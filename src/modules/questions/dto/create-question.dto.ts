@@ -3,7 +3,6 @@ import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
   IsArray,
-  IsBoolean,
   IsEnum,
   IsNotEmpty,
   IsOptional,
@@ -11,7 +10,7 @@ import {
   ValidateIf,
   ValidateNested,
 } from 'class-validator';
-import { QuestionTypeEnum } from '../../../utils/constant';
+import { QuestionTypeEnum } from '../../../constants/enum';
 
 export class QuestionOptionDto {
   @IsNotEmpty()
@@ -83,9 +82,6 @@ export class CreateQuestionsDto {
   @IsString()
   @IsNotEmpty()
   level: string;
-
-  @IsBoolean()
-  has_preview: boolean;
 
   @ArrayNotEmpty()
   preview_questions: CreateQuestionDto[];
