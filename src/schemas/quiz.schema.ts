@@ -2,13 +2,11 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Question } from './question.schema';
 
-export type AssessmentDocument = Assessment & Document;
+export type QuizDocument = Quiz & Document;
 @Schema()
-export class Assessment {
-  @Prop({
-    required: true,
-  })
-  title: string;
+export class Quiz {
+  @Prop()
+  category: string;
 
   @Prop()
   level: string;
@@ -18,6 +16,9 @@ export class Assessment {
 
   @Prop()
   duration: string;
+
+  @Prop()
+  hasPreview: boolean;
 
   @Prop()
   sampleQuestions: Question[];
@@ -40,5 +41,6 @@ export class Assessment {
   updatedBy: string;
 }
 
-export const AssessmentSchema = SchemaFactory.createForClass(Assessment);
-export const schemaName = 'Assessment';
+export const QuizSchema = SchemaFactory.createForClass(Quiz);
+QuizSchema.index({ category: 1, level: 1 }, { unique: true });
+export const QuizSchemaName = 'Quiz';

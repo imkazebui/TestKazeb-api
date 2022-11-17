@@ -1,48 +1,40 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-
-import { LevelEnum } from 'src/constants/enum';
+import { ResultEnum, StatusEnum } from '../constants/enum';
 
 export type TestDocument = Test & Document;
-
-enum TestType {
-  ProgramingSkills = 'PROGRAMMING_SKILLS',
-}
 
 @Schema()
 export class Test {
   @Prop({
     required: true,
   })
-  name: string;
-
-  @Prop()
-  summary: string;
-
-  @Prop()
-  duration: number;
+  assesmentId: string;
 
   @Prop({
-    enum: TestType,
+    required: true,
   })
-  type: string;
+  userId: string;
 
   @Prop()
-  description: string;
+  choices: {
+    questionId: string;
+    selection: string[];
+  }[];
+
+  @Prop()
+  totalScore: number;
 
   @Prop({
-    enum: LevelEnum,
+    required: true,
+    enum: StatusEnum,
   })
-  level: string;
+  status: string;
 
-  @Prop()
-  coveredSkills: [string];
-
-  @Prop()
-  previewQuestions: [number];
-
-  @Prop()
-  questions: [number];
+  @Prop({
+    enum: ResultEnum,
+  })
+  result: string;
 
   @Prop({
     type: Date,
@@ -52,9 +44,13 @@ export class Test {
 
   @Prop({
     type: Date,
-    default: Date.now,
   })
   updatedAt: string;
+
+  @Prop({
+    type: Date,
+  })
+  expiredAt: string;
 }
 
 export const TestSchema = SchemaFactory.createForClass(Test);

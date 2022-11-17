@@ -22,7 +22,7 @@ export class QuestionOptionDto {
   text: string;
 }
 
-export class CreateQuestionDto {
+export class CreateQuizDto {
   @ApiProperty({ required: true })
   @IsString()
   @IsNotEmpty()
@@ -69,22 +69,4 @@ export class CreateQuestionDto {
   @ValidateNested({ each: true })
   @Type(() => String)
   answers: number[];
-}
-
-export class CreateQuestionsDto {
-  @ArrayNotEmpty()
-  questions: any[];
-
-  @IsString()
-  @IsNotEmpty()
-  test_name: string;
-
-  @IsString()
-  @IsNotEmpty()
-  level: string;
-
-  @ArrayNotEmpty()
-  preview_questions: CreateQuestionDto[];
-
-  duration: number;
 }

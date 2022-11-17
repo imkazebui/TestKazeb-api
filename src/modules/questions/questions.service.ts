@@ -1,20 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateQuestionDto } from './dto/create-question.dto';
+import {
+  CreateQuestionDto,
+  CreateQuestionsDto,
+} from './dto/create-question.dto';
 import {
   Question,
   QuestionDocument,
-  schemaName,
+  QuestionSchemaName,
 } from '../../schemas/question.schema';
-
-import mockData from '../../data/testgorilla/nodejs/test.json';
+import { QuizDocument, QuizSchemaName } from '../../schemas/quiz.schema';
 
 @Injectable()
 export class QuestionsService {
   constructor(
-    @InjectModel(schemaName)
+    @InjectModel(QuestionSchemaName)
     private readonly questionModel: Model<QuestionDocument>,
+    @InjectModel(QuizSchemaName)
+    private readonly quizModel: Model<QuizDocument>,
   ) {}
 
   async create(createQuestionDto: CreateQuestionDto): Promise<Question> {
@@ -22,25 +26,39 @@ export class QuestionsService {
     return createdQuestion;
   }
 
-  async bulkCreate(): Promise<any> {
-    const { questions } = mockData;
-    const insertedData = questions.map(({ question }) => ({
-      question: question.text,
-      type: 'MULTIPLE_CHOICE',
-      category: 'NODEJS',
-      level: 'ADVANCED',
-      answer: 0,
-      options: question.answers,
+  async bulkCreate(data: CreateQuestionsDto): Promise<Question[]> {
+    const { questions, test_name, level, preview_questions, duration } = data;
+    let quiz = await this.quizModel.findOne({ name: test_name, level }).exec();
+    if (!quiz) {
+      quiz = await this.quizModel.create({
+        name: test_name,
+        level,
+        duration: +duration,
+        sampleQuestions: preview_questions.map((item: any) => ({
+          question: item.text,
+          options: item.answers,
+          type: item.type.replace(/-/g, '_').toUpperCase(),
+          answers: preview_questions
+            .filter((item: any) => item.score > 0)
+            .map((object: any) => object.id),
+        })),
+      });
+    }
+    const importQuestion = questions.map((item: any) => ({
+      question: item.question.text,
+      quizId: quiz._id,
+      type: item.question.type.replace(/-/g, '_').toUpperCase(),
+      options: item.question.answers,
+      answers: item.answers,
     }));
-    const createdQuestion = await this.questionModel.insertMany(insertedData);
-    return createdQuestion;
+    const createdQuestions = await this.questionModel.insertMany(
+      importQuestion,
+    );
+    return createdQuestions;
   }
 
   async findAll(): Promise<Question[]> {
-    const data = await this.questionModel.find().exec();
-    console.log({ questionIds: data.map((d) => d._id.toString()) });
-
-    return this.questionModel.find({ category: 'NODEJS' }).exec();
+    return this.questionModel.find().exec();
   }
 
   async findOne(id: string): Promise<Question> {
@@ -52,9 +70,12 @@ export class QuestionsService {
   }
 
   async delete(id: string) {
-    const deleted = await this.questionModel
+    const deletedValue = await this.questionModel
       .findByIdAndRemove({ _id: id })
       .exec();
-    return deleted;
+    if (deletedValue._id) {
+      return true;
+    }
+    return false;
   }
 }
