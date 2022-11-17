@@ -63,10 +63,16 @@ export class CreateQuizDto {
   @ArrayNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => QuestionOptionDto)
-  sampleQuestions: [
+  previewQuestions: [
     {
       id: number;
       text: string;
     },
   ];
+
+  @ApiProperty()
+  @IsArray()
+  @IsOptional()
+  @ArrayNotEmpty()
+  questionIds: string[];
 }

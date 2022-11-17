@@ -42,7 +42,7 @@ export class QuestionsService {
         level,
         duration: +duration,
         hasPreview: has_preview,
-        sampleQuestions: preview_questions.map((item: any) => ({
+        previewQuestions: preview_questions.map((item: any) => ({
           question: item.text,
           options: item.answers,
           type: item.type.replace(/-/g, '_').toUpperCase(),
