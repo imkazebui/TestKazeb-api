@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { AssessmentStatusEnum } from '../utils/constant';
+import { AssessmentStatusEnum } from '../constants/enum';
 
 export type AssessmentDocument = Assessment & Document;
 @Schema()

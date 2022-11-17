@@ -31,19 +31,19 @@ export class QuizController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get a question' })
+  @ApiOperation({ summary: 'Get a quiz' })
   async findOne(@Param('id') id: string): Promise<Quiz> {
     return this.QuizSV.findOne(id);
   }
 
   @Put(':id')
-  @ApiOperation({ summary: 'Update a question' })
+  @ApiOperation({ summary: 'Update a quiz' })
   async updateOne(@Param('id') id: string, @Body() payload: CreateQuizDto) {
     return this.QuizSV.updateOne(id, payload);
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete a question' })
+  @ApiOperation({ summary: 'Delete a quiz' })
   async delete(@Param('id') id: string) {
     return this.QuizSV.delete(id);
   }

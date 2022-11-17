@@ -3,7 +3,6 @@ import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
   IsArray,
-  IsBoolean,
   IsEnum,
   IsNotEmpty,
   IsOptional,
@@ -83,9 +82,6 @@ export class CreateQuestionsDto {
   @IsString()
   @IsNotEmpty()
   level: string;
-
-  @IsBoolean()
-  has_preview: boolean;
 
   @ArrayNotEmpty()
   preview_questions: CreateQuestionDto[];
