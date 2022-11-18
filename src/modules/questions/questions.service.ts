@@ -26,7 +26,7 @@ export class QuestionsService {
     return createdQuestion;
   }
 
-  async bulkCreate(data: CreateQuestionsDto): Promise<any> {
+  async bulkCreate(data: CreateQuestionsDto): Promise<Question[]> {
     const { questions, test_name, level, preview_questions, duration } = data;
     let quiz = await this.quizModel.findOne({ name: test_name, level }).exec();
     if (!quiz) {

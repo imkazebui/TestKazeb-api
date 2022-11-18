@@ -10,7 +10,7 @@ import {
   ValidateIf,
   ValidateNested,
 } from 'class-validator';
-import { QuestionTypeEnum } from '../../../utils/constant';
+import { QuestionTypeEnum } from '../../../constants/enum';
 
 export class QuestionOptionDto {
   @IsNotEmpty()

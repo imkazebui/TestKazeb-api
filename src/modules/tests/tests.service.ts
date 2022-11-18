@@ -5,7 +5,7 @@ import { CreateTestDto } from './dto/create-test.dto';
 import { Test, TestDocument, schemaName } from '../../schemas/test.schema';
 import newEmail from '../../utilities/nodemailer';
 
-import mockData from '../../data/nodejs/preview.json';
+import mockData from '../../data/testgorilla/nodejs/preview.json';
 
 @Injectable()
 export class TestsService {
