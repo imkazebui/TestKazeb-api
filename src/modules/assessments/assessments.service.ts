@@ -9,7 +9,7 @@ import {
   AssesmentSchemaName,
 } from '../../schemas/assessment.schema';
 import { QuizDocument, QuizSchemaName } from '../../schemas/quiz.schema';
-import { AssessmentStatusEnum } from '../../utils/constant';
+import { AssessmentStatusEnum } from '../../constants/enum';
 
 @Injectable()
 export class AssessmentsService {

@@ -11,9 +11,9 @@ export class QuizService {
     private readonly quizModel: Model<QuizDocument>,
   ) {}
 
-  async create(createQuestionDto: CreateQuizDto): Promise<Quiz> {
-    const createdQuestion = await this.quizModel.create(createQuestionDto);
-    return createdQuestion;
+  async create(payload: CreateQuizDto): Promise<Quiz> {
+    const createdQuiz = await this.quizModel.create(payload);
+    return createdQuiz;
   }
 
   async findAll(): Promise<Quiz[]> {

@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { QuestionTypeEnum } from '../utils/constant';
+import { QuestionTypeEnum } from '../constants/enum';
 
 export type QuestionDocument = Question & Document;
 @Schema()
