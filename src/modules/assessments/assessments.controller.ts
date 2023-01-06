@@ -21,7 +21,7 @@ export class AssessmentsController {
   @Post()
   @ApiOperation({ summary: 'Create assessment' })
   async create(@Body() createAssessmentDto: CreateAssessmentDto) {
-    await this.AssessmentsSV.create(createAssessmentDto);
+    return this.AssessmentsSV.create(createAssessmentDto);
   }
 
   @Get()
@@ -39,7 +39,7 @@ export class AssessmentsController {
   @Post(':id/invite-candidate')
   @ApiOperation({ summary: 'Invite candidate' })
   async inviteCandidate(@Body() inviteCandidateDto: InviteCandidateDto) {
-    await this.AssessmentsSV.inviteCandidate(inviteCandidateDto);
+    return await this.AssessmentsSV.inviteCandidate(inviteCandidateDto);
   }
 
   @Put(':id')

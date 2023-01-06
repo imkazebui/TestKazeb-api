@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { Question } from './question.schema';
+import { AssessmentStatusEnum } from '../constants/enum';
 
 export type AssessmentDocument = Assessment & Document;
 @Schema()
@@ -11,16 +11,22 @@ export class Assessment {
   title: string;
 
   @Prop()
-  level: string;
-
-  @Prop()
   description: string;
 
   @Prop()
-  duration: string;
+  jobRole: string;
 
   @Prop()
-  sampleQuestions: Question[];
+  duration: number;
+
+  @Prop({
+    required: true,
+    enum: AssessmentStatusEnum,
+  })
+  status: string;
+
+  @Prop()
+  quizIds: string[];
 
   @Prop()
   createdBy: string;
@@ -41,4 +47,4 @@ export class Assessment {
 }
 
 export const AssessmentSchema = SchemaFactory.createForClass(Assessment);
-export const schemaName = 'Assessment';
+export const AssesmentSchemaName = 'Assessment';

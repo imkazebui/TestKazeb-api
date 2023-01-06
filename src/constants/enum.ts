@@ -21,12 +21,17 @@ export enum UserTypeEnum {
   EMPLOYEE = 'EMPLOYEE',
 }
 
-export enum ResultEnum {
+export enum AssessmentStatusEnum {
+  ACTIVE = 'ACTIVE',
+  EXPIRED = 'EXPIRED',
+}
+
+export enum TestResultEnum {
   PASS = 'PASS',
   FAILED = 'FAILED',
 }
 
-export enum StatusEnum {
+export enum TestStatusEnum {
   PROCESSING = 'PROCESSING',
   PAUSED = 'PAUSED',
   COMPLETED = 'COMPLETED',

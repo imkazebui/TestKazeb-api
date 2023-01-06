@@ -13,37 +13,37 @@ import { QuizService } from './quiz.service';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { Quiz } from '../../schemas/quiz.schema';
 
-@ApiTags('Questions')
-@Controller('questions')
+@ApiTags('Quizzes')
+@Controller('quizzes')
 export class QuizController {
   constructor(private readonly QuizSV: QuizService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create question' })
+  @ApiOperation({ summary: 'Create quiz' })
   async create(@Body() createQuestionDto: CreateQuizDto) {
-    return await this.QuizSV.create(createQuestionDto);
+    return this.QuizSV.create(createQuestionDto);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get list questions' })
+  @ApiOperation({ summary: 'Get list quizzes' })
   async findAll(): Promise<Quiz[]> {
     return this.QuizSV.findAll();
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get a question' })
+  @ApiOperation({ summary: 'Get a quiz' })
   async findOne(@Param('id') id: string): Promise<Quiz> {
-    return this.QuizSV.findOne();
+    return this.QuizSV.findOne(id);
   }
 
   @Put(':id')
-  @ApiOperation({ summary: 'Update a question' })
+  @ApiOperation({ summary: 'Update a quiz' })
   async updateOne(@Param('id') id: string, @Body() payload: CreateQuizDto) {
-    return this.QuizSV.updateOne();
+    return this.QuizSV.updateOne(id, payload);
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete a question' })
+  @ApiOperation({ summary: 'Delete a quiz' })
   async delete(@Param('id') id: string) {
     return this.QuizSV.delete(id);
   }

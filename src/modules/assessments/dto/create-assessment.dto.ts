@@ -1,22 +1,35 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsOptional, IsArray } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsArray,
+  IsNumber,
+} from 'class-validator';
 
 export class CreateAssessmentDto {
   @ApiProperty({ required: true })
   @IsString()
   @IsNotEmpty()
-  name: string;
+  title: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
+  description: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
   jobRole: string;
 
-  @ApiProperty({
-    required: true,
-  })
+  @ApiProperty()
+  @IsOptional()
+  @IsNumber()
+  duration: number;
+
+  @ApiProperty()
   @IsArray()
-  @IsNotEmpty()
-  testIds: number[];
+  @IsOptional()
+  quizIds: string[] = [];
 }

@@ -66,7 +66,9 @@ export class QuestionsService {
   }
 
   async updateOne(id: string, payload: CreateQuestionDto): Promise<Question> {
-    return this.questionModel.findOneAndUpdate({ _id: id }, payload);
+    return this.questionModel.findOneAndUpdate({ _id: id }, payload, {
+      new: true,
+    });
   }
 
   async delete(id: string) {

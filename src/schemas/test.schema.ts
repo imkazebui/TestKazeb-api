@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { ResultEnum, StatusEnum } from '../constants/enum';
+import { TestStatusEnum, TestResultEnum } from '../constants/enum';
 
 export type TestDocument = Test & Document;
 
@@ -27,12 +27,12 @@ export class Test {
 
   @Prop({
     required: true,
-    enum: StatusEnum,
+    enum: TestStatusEnum,
   })
   status: string;
 
   @Prop({
-    enum: ResultEnum,
+    enum: TestResultEnum,
   })
   result: string;
 
