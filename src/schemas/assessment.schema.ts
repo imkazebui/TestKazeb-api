@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import { AssessmentStatusEnum } from '../constants/enum';
 
 export type AssessmentDocument = Assessment & Document;
@@ -25,7 +25,7 @@ export class Assessment {
   })
   status: string;
 
-  @Prop()
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Quiz' }] })
   quizIds: string[];
 
   @Prop()

@@ -36,6 +36,12 @@ export class AssessmentsController {
     return this.AssessmentsSV.findOne(id);
   }
 
+  @Get(':id/detail')
+  @ApiOperation({ summary: 'Get a assessment' })
+  async getDetail(@Param('id') id: string): Promise<Assessment> {
+    return this.AssessmentsSV.getDetail(id);
+  }
+
   @Post(':id/invite-candidate')
   @ApiOperation({ summary: 'Invite candidate' })
   async inviteCandidate(@Body() inviteCandidateDto: InviteCandidateDto) {

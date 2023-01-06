@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import { Question } from './question.schema';
 
 export type QuizDocument = Quiz & Document;
@@ -21,7 +21,10 @@ export class Quiz {
   hasPreview: boolean;
 
   @Prop()
-  sampleQuestions: Question[];
+  previewQuestions: Question[];
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }] })
+  questionIds: string[];
 
   @Prop()
   createdBy: string;

@@ -11,9 +11,6 @@ export class Question {
   question: string;
 
   @Prop()
-  quizId: string;
-
-  @Prop()
   description: string;
 
   @Prop({

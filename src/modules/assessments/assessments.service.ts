@@ -55,6 +55,32 @@ export class AssessmentsService {
     return this.assessmentModel.findOne({ _id: id }).exec();
   }
 
+  async getDetail(id: string): Promise<Assessment> {
+    let assessment: any = await this.assessmentModel
+      .findOne({ _id: id })
+      .populate({
+        path: 'quizIds',
+        model: 'Quiz',
+        select: '_id',
+        populate: {
+          path: 'questionIds',
+          model: 'Question',
+          select: 'question type category level options answers',
+        },
+      })
+      .exec();
+
+    assessment = {
+      ...assessment.toObject(),
+      questions: assessment.quizIds
+        .map((item: any) => {
+          return item.questionIds;
+        })
+        .flat(),
+    };
+    return assessment;
+  }
+
   async updateOne(
     id: string,
     payload: CreateAssessmentDto,
