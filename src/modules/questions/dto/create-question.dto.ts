@@ -88,6 +88,7 @@ export class CreateQuestionsDto {
   has_preview: boolean;
 
   @ArrayNotEmpty()
+  @IsOptional()
   preview_questions: CreateQuestionDto[];
 
   duration: number;

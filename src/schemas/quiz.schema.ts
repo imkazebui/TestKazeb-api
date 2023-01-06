@@ -45,5 +45,5 @@ export class Quiz {
 }
 
 export const QuizSchema = SchemaFactory.createForClass(Quiz);
-QuizSchema.index({ category: 1, level: 1 }, { unique: true });
+QuizSchema.index({ name: 1, level: 1 }, { unique: true });
 export const QuizSchemaName = 'Quiz';

@@ -11,6 +11,7 @@ import {
   QuestionSchemaName,
 } from '../../schemas/question.schema';
 import { QuizDocument, QuizSchemaName } from '../../schemas/quiz.schema';
+import { QuestionTypeEnum } from '../../constants/enum';
 
 @Injectable()
 export class QuestionsService {
@@ -32,7 +33,7 @@ export class QuestionsService {
       test_name,
       level,
       has_preview,
-      preview_questions,
+      // preview_questions,
       duration,
     } = data;
     let quiz = await this.quizModel.findOne({ name: test_name, level }).exec();
@@ -42,26 +43,34 @@ export class QuestionsService {
         level,
         duration: +duration,
         hasPreview: has_preview,
-        previewQuestions: preview_questions.map((item: any) => ({
-          question: item.text,
-          options: item.answers,
-          type: item.type.replace(/-/g, '_').toUpperCase(),
-          answers: preview_questions
-            .filter((item: any) => item.score > 0)
-            .map((object: any) => object.id),
-        })),
+        // previewQuestions: preview_questions.map((item: any) => ({
+        //   question: item.text,
+        //   options: item.answers,
+        //   type: item.type.replace(/-/g, '_').toUpperCase(),
+        //   answers: preview_questions
+        //     .filter((item: any) => item.score > 0)
+        //     .map((object: any) => object.id),
+        // })),
       });
     }
     const importQuestion = questions.map((item: any) => ({
-      question: item.question.text,
+      question: item.question,
       quizId: quiz._id,
-      type: item.question.type.replace(/-/g, '_').toUpperCase(),
-      options: item.question.answers,
-      answers: item.answers,
+      type:
+        item.type?.replace(/-/g, '_').toUpperCase() ||
+        QuestionTypeEnum.MULTIPLE_CHOICE,
+      options: item.options,
+      answers: [item.answer],
     }));
     const createdQuestions = await this.questionModel.insertMany(
       importQuestion,
     );
+    const questionIds = createdQuestions.map((item: any) => {
+      return item._id;
+    });
+    await this.quizModel.findOneAndUpdate(quiz._id, {
+      questionIds,
+    });
     return createdQuestions;
   }
 
