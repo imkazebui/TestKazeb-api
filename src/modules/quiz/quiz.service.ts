@@ -3,12 +3,18 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateQuizDto } from './dto/create-quiz.dto';
 import { Quiz, QuizDocument, QuizSchemaName } from '../../schemas/quiz.schema';
+import {
+  QuestionDocument,
+  QuestionSchemaName,
+} from '../../schemas/question.schema';
 
 @Injectable()
 export class QuizService {
   constructor(
     @InjectModel(QuizSchemaName)
     private readonly quizModel: Model<QuizDocument>,
+    @InjectModel(QuestionSchemaName)
+    private readonly questionModel: Model<QuestionDocument>,
   ) {}
 
   async create(payload: CreateQuizDto): Promise<Quiz> {
@@ -20,8 +26,20 @@ export class QuizService {
     return await this.quizModel.find();
   }
 
-  async findOne(id: string): Promise<Quiz> {
-    return await this.quizModel.findById(id).exec();
+  async findOne(id: string): Promise<any> {
+    const quiz: any = await (
+      await this.quizModel.findById(id).exec()
+    ).toObject();
+    const questions = await this.questionModel
+      .find({
+        _id: { $in: quiz.questionIds },
+      })
+      .exec();
+    const result = {
+      ...quiz,
+      questions,
+    };
+    return result;
   }
 
   async updateOne(id: string, payload: CreateQuizDto): Promise<Quiz> {
