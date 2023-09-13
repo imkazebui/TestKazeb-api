@@ -3,10 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import * as Joi from 'joi';
 import { DatabaseModule } from './database/database.module';
-import { QuestionsModule } from './modules/questions/questions.module';
-import { TestsModule } from './modules/tests/tests.module';
-import { AssessmentsModule } from './modules/assessments/assessments.module';
-import { QuizModule } from './modules/quiz/quiz.module';
+import { QuestionsModule } from './questions/questions.module';
+import { AnswersModule } from './answers/answers.module';
 
 @Module({
   imports: [
@@ -19,9 +17,7 @@ import { QuizModule } from './modules/quiz/quiz.module';
     }),
     DatabaseModule,
     QuestionsModule,
-    TestsModule,
-    AssessmentsModule,
-    QuizModule,
+    AnswersModule,
   ],
 })
 export class AppModule {}

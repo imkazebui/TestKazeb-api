@@ -1,17 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
-  IsArray,
   IsBoolean,
   IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
-  ValidateIf,
-  ValidateNested,
 } from 'class-validator';
-import { QuestionTypeEnum } from '../../../constants/enum';
+import { QuestionTypeEnum } from '../../constants/enum';
 
 export class QuestionOptionDto {
   @IsNotEmpty()
@@ -43,33 +39,6 @@ export class CreateQuestionDto {
   @IsEnum(QuestionTypeEnum)
   @IsNotEmpty()
   type: string;
-
-  @ValidateIf((object) => {
-    return object.type === QuestionTypeEnum.MULTIPLE_CHOICE;
-  })
-  @IsArray()
-  @IsNotEmpty()
-  @ArrayNotEmpty()
-  @ValidateNested({ each: true })
-  @Type(() => QuestionOptionDto)
-  options: [
-    {
-      id: number;
-      text: string;
-    },
-  ];
-
-  @ValidateIf(
-    (object) =>
-      object.type === QuestionTypeEnum.MULTIPLE_CHOICE &&
-      object.options.length !== object.answers.length,
-  )
-  @IsArray()
-  @IsNotEmpty()
-  @ArrayNotEmpty()
-  @ValidateNested({ each: true })
-  @Type(() => String)
-  answers: number[];
 }
 
 export class CreateQuestionsDto {

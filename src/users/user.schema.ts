@@ -1,10 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, ObjectId } from 'mongoose';
 import { UserTypeEnum } from '../constants/enum';
+import { Transform } from 'class-transformer';
 
 export type UserDocument = User & Document;
-@Schema()
+@Schema({
+  toJSON: {
+    getters: true,
+    virtuals: true,
+  },
+})
 export class User {
+  @Transform(({ value }) => value.toString())
+  _id: ObjectId;
+
   @Prop({
     required: true,
   })
@@ -19,6 +28,8 @@ export class User {
     required: true,
   })
   lastName: string;
+
+  fullName: string;
 
   @Prop({
     required: true,
@@ -38,5 +49,10 @@ export class User {
   updatedAt: string;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
-export const schemaName = 'User';
+const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.virtual('fullName').get(function (this: User) {
+  return `${this.firstName} ${this.lastName}`;
+});
+
+export { UserSchema };
