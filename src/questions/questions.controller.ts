@@ -41,9 +41,21 @@ export class QuestionsController {
     return this.questionsSV.updateOne(id, payload);
   }
 
+  @Delete('/delete-all')
+  @ApiOperation({ summary: 'Delete all questions' })
+  async deleteAll() {
+    return this.questionsSV.deleteAll();
+  }
+
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a question' })
   async delete(@Param('id') id: string) {
     return this.questionsSV.delete(id);
+  }
+
+  @Post('/from-file/:name')
+  @ApiOperation({ summary: 'Create question from file json' })
+  async createFromFile(@Param('name') name: string) {
+    return await this.questionsSV.createFromFile(name);
   }
 }

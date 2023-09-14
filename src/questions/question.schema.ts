@@ -32,15 +32,20 @@ export class Question {
   })
   type: string;
 
-  @Prop({ type: SchemaTypes.ObjectId, ref: Answer.name })
+  @Prop({
+    type: [{ type: SchemaTypes.ObjectId, ref: Answer.name }],
+  })
   @Type(() => Answer)
-  answers: Answer[];
+  listAnswers: Answer[];
 
   @Prop({ enum: QuestionLevelEnum })
   level: string;
 
   @Prop()
-  correctAnswer: number;
+  answerText: string;
+
+  @Prop()
+  answers: number[];
 
   @Prop()
   createdBy: string;

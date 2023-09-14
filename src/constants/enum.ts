@@ -1,22 +1,27 @@
 export enum QuestionTypeEnum {
-  multiple_choice,
+  multiple_choice = 'multiple-choice',
+  short_text = 'short-text',
+  true_false = 'true-false',
 }
 
 export enum UserTypeEnum {
-  admin,
-  user,
+  admin = 'admin',
+  user = 'user',
 }
 
 export enum SkillEnum {
-  html,
-  css,
-  nodejs,
-  javascript,
+  html5 = 'html5',
+  css = 'css',
+  nodejs = 'nodejs',
+  javascript = 'javascript',
+  react = 'react',
+  expressjs = 'expressjs',
+  clean_code = 'clean_code',
 }
 
 export enum QuestionLevelEnum {
-  junior,
-  middle,
-  senior,
-  expert,
+  junior = 'junior',
+  middle = 'middle',
+  senior = 'senior',
+  expert = 'expert',
 }

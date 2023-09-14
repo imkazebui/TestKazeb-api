@@ -1,42 +1,21 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Delete } from '@nestjs/common';
+import { Answer } from './answer.schema';
 import { AnswersService } from './answers.service';
-import { CreateAnswerDto } from './dto/create-answer.dto';
-import { UpdateAnswerDto } from './dto/update-answer.dto';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('answers')
 export class AnswersController {
-  constructor(private readonly answersService: AnswersService) {}
-
-  @Post()
-  create(@Body() createAnswerDto: CreateAnswerDto) {
-    return this.answersService.create(createAnswerDto);
-  }
+  constructor(private readonly answersSV: AnswersService) {}
 
   @Get()
-  findAll() {
-    return this.answersService.findAll();
+  @ApiOperation({ summary: 'Get list ắners' })
+  async findAll(): Promise<Answer[]> {
+    return this.answersSV.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.answersService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAnswerDto: UpdateAnswerDto) {
-    return this.answersService.update(+id, updateAnswerDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.answersService.remove(+id);
+  @Delete('/delete-all')
+  @ApiOperation({ summary: 'Delete all questions' })
+  async deleteAll() {
+    return this.answersSV.deleteAll();
   }
 }

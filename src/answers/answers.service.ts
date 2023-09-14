@@ -10,23 +10,18 @@ export class AnswersService {
     private readonly answerModel: Model<AnswerDocument>,
   ) {}
 
-  create() {
-    return 'This action adds a new answer';
+  async insertMany(data) {
+    const res = await this.answerModel.insertMany(data);
+    return res;
   }
 
-  findAll() {
-    return `This action returns all answers`;
+  async findAll(): Promise<Answer[]> {
+    return this.answerModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} answer`;
-  }
+  async deleteAll() {
+    const deletedValue = await this.answerModel.deleteMany();
 
-  update(id: number) {
-    return `This action updates a #${id} answer`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} answer`;
+    return deletedValue;
   }
 }
