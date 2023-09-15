@@ -66,5 +66,6 @@ export class Question {
 }
 
 const QuestionSchema = SchemaFactory.createForClass(Question);
+QuestionSchema.index({ skill: 'text', level: 'text' });
 
 export { QuestionSchema };

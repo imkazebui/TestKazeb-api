@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, FilterQuery } from 'mongoose';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { Question, QuestionDocument } from './question.schema';
 import reactQuestions from '../data/testgorilla/react/test.json';
@@ -29,8 +29,32 @@ export class QuestionsService {
     return createdQuestion;
   }
 
-  async findAll(): Promise<Question[]> {
-    return this.questionModel.find().populate('listAnswers').exec();
+  async findAll(
+    documentsToSkip = 0,
+    limitOfDocuments?: number,
+    search?: string,
+  ) {
+    const filters: FilterQuery<QuestionDocument> = {};
+
+    if (search) {
+      filters.$text = {
+        $search: search,
+      };
+    }
+
+    const query = this.questionModel
+      .find(filters)
+      .skip(documentsToSkip)
+      .populate('listAnswers');
+
+    if (limitOfDocuments) {
+      query.limit(limitOfDocuments);
+    }
+
+    const results = await query.exec();
+    const count = await this.questionModel.count();
+
+    return { results, count };
   }
 
   async findOne(id: string): Promise<Question> {

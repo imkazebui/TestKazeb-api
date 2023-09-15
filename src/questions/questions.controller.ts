@@ -6,11 +6,13 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { Question } from './question.schema';
+import { PaginationParams } from '../utils/paginationParams';
 
 @ApiTags('Questions')
 @Controller('questions')
@@ -25,8 +27,11 @@ export class QuestionsController {
 
   @Get()
   @ApiOperation({ summary: 'Get list questions' })
-  async findAll(): Promise<Question[]> {
-    return this.questionsSV.findAll();
+  async findAll(
+    @Query() { skip, limit }: PaginationParams,
+    @Query('search') search: string,
+  ) {
+    return this.questionsSV.findAll(skip, limit, search);
   }
 
   @Get(':id')

@@ -13,6 +13,10 @@ import { AnswersModule } from './answers/answers.module';
       validationSchema: Joi.object({
         // DATABASE
         // DATABASE_URI: Joi.string().required(),
+        MONGO_USERNAME: Joi.string().required(),
+        MONGO_PASSWORD: Joi.string().required(),
+        MONGO_DATABASE: Joi.string().required(),
+        MONGO_HOST: Joi.string().required(),
       }),
     }),
     DatabaseModule,
