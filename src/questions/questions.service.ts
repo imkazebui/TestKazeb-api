@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, FilterQuery } from 'mongoose';
-import { CreateQuestionDto } from './dto/create-question.dto';
 import { Question, QuestionDocument } from './question.schema';
 import reactQuestions from '../data/testgorilla/react/test.json';
 import nodeQuestions from '../data/testgorilla/nodejs/test.json';
@@ -15,6 +14,7 @@ import {
   QuestionTypeEnum,
   SkillEnum,
 } from 'src/constants/enum';
+import { UpdateQuestionDto } from './dto/updateQuestion.dto';
 
 @Injectable()
 export class QuestionsService {
@@ -24,8 +24,8 @@ export class QuestionsService {
     private readonly answersSV: AnswersService,
   ) {}
 
-  async create(createQuestionDto: CreateQuestionDto): Promise<Question> {
-    const createdQuestion = await this.questionModel.create(createQuestionDto);
+  async create(): Promise<Question> {
+    const createdQuestion = await this.questionModel.create({});
     return createdQuestion;
   }
 
@@ -58,10 +58,13 @@ export class QuestionsService {
   }
 
   async findOne(id: string): Promise<Question> {
-    return this.questionModel.findOne({ _id: id }).exec();
+    return await this.questionModel
+      .findOne({ _id: id })
+      .populate('listAnswers')
+      .exec();
   }
 
-  async updateOne(id: string, payload: CreateQuestionDto): Promise<Question> {
+  async updateOne(id: string, payload: UpdateQuestionDto): Promise<Question> {
     return this.questionModel.findOneAndUpdate({ _id: id }, payload, {
       new: true,
     });

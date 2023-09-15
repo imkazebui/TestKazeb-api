@@ -44,8 +44,11 @@ export class Question {
   @Prop()
   answerText: string;
 
+  @Prop({
+    type: [{ type: SchemaTypes.ObjectId, ref: Answer.name }],
+  })
   @Prop()
-  answers: number[];
+  answers: Answer[];
 
   @Prop()
   createdBy: string;

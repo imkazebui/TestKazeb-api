@@ -8,7 +8,7 @@ export class AnswersController {
   constructor(private readonly answersSV: AnswersService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Get list ắners' })
+  @ApiOperation({ summary: 'Get list answers' })
   async findAll(): Promise<Answer[]> {
     return this.answersSV.findAll();
   }

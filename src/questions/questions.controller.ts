@@ -5,14 +5,14 @@ import {
   Get,
   Param,
   Post,
-  Put,
+  Patch,
   Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { QuestionsService } from './questions.service';
-import { CreateQuestionDto } from './dto/create-question.dto';
 import { Question } from './question.schema';
 import { PaginationParams } from '../utils/paginationParams';
+import { UpdateQuestionDto } from './dto/updateQuestion.dto';
 
 @ApiTags('Questions')
 @Controller('questions')
@@ -21,8 +21,8 @@ export class QuestionsController {
 
   @Post()
   @ApiOperation({ summary: 'Create question' })
-  async create(@Body() createQuestionDto: CreateQuestionDto) {
-    return await this.questionsSV.create(createQuestionDto);
+  async create() {
+    return await this.questionsSV.create();
   }
 
   @Get()
@@ -40,9 +40,9 @@ export class QuestionsController {
     return this.questionsSV.findOne(id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @ApiOperation({ summary: 'Update a question' })
-  async updateOne(@Param('id') id: string, @Body() payload: CreateQuestionDto) {
+  async updateOne(@Param('id') id: string, @Body() payload: UpdateQuestionDto) {
     return this.questionsSV.updateOne(id, payload);
   }
 
